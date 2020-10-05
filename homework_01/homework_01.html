@@ -1,0 +1,67 @@
+<HTML>
+<BODY>
+
+<canvas id = 'homework_1' height = '500' widht = '500' style = 'border:1px solid'>
+</canvas>
+
+<script> 
+
+        var canvas = document.getElementById('homework_1');
+        console.log(canvas);
+        var ctx = canvas.getContext('2d');
+        console.log(ctx);
+        var x = canvas.width/2;
+        var y = canvas.height-30
+        var dy = -2;
+        var i = 1;
+        var flag = false;
+        var intervalID;
+        
+        //void ctx.arc(x, y, radius, startAngle, endAngle, anticlockwise);
+       
+        function drawSmile() {
+           ctx.beginPath();
+           ctx.arc(x,y,15,0,Math.PI*2,true); // Внешняя окружность 
+           ctx.fillStyle = "yellow"; // Установка цвета заливки
+           ctx.fill(); // Заливка текущего контура
+           ctx.moveTo(x+10,y); // Перемещает начальную точку нового фрагмента контура в координаты (x, y)
+           ctx.arc(x,y,10,0,Math.PI,false);  // Рот (по часовой стрелке)
+           ctx.moveTo(x-5+2,y-5);
+           ctx.arc(x-5,y-5,2,0,Math.PI*2,true);  // Левый глаз
+           ctx.moveTo(x+5+2,y-5);
+           ctx.arc(x+5,y-5,2,0,Math.PI*2,true);  // Правый глаз
+           ctx.stroke(); //Отрисовка
+        }
+
+        function motion() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height); // Стирает ранее нарисованное изображение
+            drawSmile();
+            if (y <= (canvas.height-30) && y >= 30 && i == 1) {
+                y += dy;
+            }
+            else {
+                y -= dy;
+                if ( y != (canvas.height-30))
+                    i = 0;
+                else 
+                    i = 1;
+            }  
+        }
+
+        drawSmile();
+        canvas.addEventListener('click', function(event){
+            if(flag == false){
+                intervalID = setInterval(motion,10);  // Вызывать функцию регулярно
+                flag = true;
+            }
+            else 
+            {
+             clearInterval(intervalID); // Остановить дальнейшее выполнение функции
+             flag = false;
+            }
+        });
+        
+</script>
+        
+</BODY>        
+</HTML>
